@@ -13,16 +13,19 @@ class Form {
 	private $items = array();
 	private $colsWide;
 	private $formName = "no name";
+	private $includeUploads;
 	
 	/**
 	 * Create a new Form object
 	 * 
 	 * @param number $width Number of bootstrap columns to user. Must be an even number less than 12
 	 * @param string $name Name for the form
+	 * @param bool $uploads Does the form accept file uploads
 	 */
-	public function __construct($width=4,$name="") {
+	public function __construct($width=4,$name="",$uploads=FALSE) {
 		$this->setName($name);
 		$this->setWidth($width);
+		$this->includeUploads = $uploads;
 	}
 	
 	// Functions to set up the form
@@ -191,7 +194,10 @@ class Form {
 			$content .= '<div class="col-sm-' . $startPad . ' hidden-xs"></div>' . "\r\n";
 			$content .= '<div class="col-sm-' . $this->colsWide . ' col-xs-12">' . "\r\n";
 		}
-		$content .= '<form method="post" action="">' . "\r\n";
+		if ($this->includeUploads == TRUE) {
+			$content .= '<form action="" method="post" enctype="multipart/form-data">';
+		}
+		else $content .= '<form method="post" action="">' . "\r\n";
 		return $content;
 	}
 	

@@ -21,8 +21,10 @@ Database::connect();
 
 // Initialize Session
 ob_start();
+
 $currentUser = NULL;
 session_start();
+
 if (isset($_SESSION['currentUserID'])) {
 	$checkCurrent = UserFactory::findByID($_SESSION['currentUserID']);
 	if (!is_null($checkCurrent)) {
@@ -30,7 +32,8 @@ if (isset($_SESSION['currentUserID'])) {
 	}
 }
 else {
-	redirect('login.php');
+	ob_clean();
+	include('login.php');
 	exit();
 }
 
