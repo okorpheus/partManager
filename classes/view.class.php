@@ -17,11 +17,7 @@ class View {
 	}
 	
 	private static function outputFooter() {
-		echo "</div>";
-		?>
-		</body>
-		</html>
-		<?php
+		include('footer.view.php');
 	}
 	
 	/**
