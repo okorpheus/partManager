@@ -62,4 +62,15 @@ class UserFactory {
 		}
 		return $users;
 	}
+	
+	
+	public static function checkUsernameExists($checkUsername) {
+		$sql = "SELECT count(*) from users WHERE username = :newUsername";
+		$stmt = Database::$connection->prepare($sql);
+		$stmt->bindParam(':newUsername', $checkUsername);
+		$stmt->execute();
+		$count = $stmt->fetch(PDO::FETCH_COLUMN);
+		if ($count > 0) return TRUE;
+		else return FALSE;
+	}
 }

@@ -7,7 +7,9 @@ if (!$currentUser->isAdmin()) {
 }
 
 View::setTitle("Manage Users");
-View::addContent('<a href="editUser.php?id=new">Add User</a>');
+View::addContent('<a href="editUser.php?id=new">Add One User</a>');
+View::addContent('<br>');
+View::addContent('<a href="bulkAddUsers.php">Add Multiple Users</a>');
 showUserTable();
 View::sendPage();
 

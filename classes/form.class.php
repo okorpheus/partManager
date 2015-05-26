@@ -162,6 +162,18 @@ class Form {
 		$this->items[] = $content;
 	}
 	
+	
+	public function addTextArea($name, $label, $rows = 5, $areaContent = NULL) {
+		$content = "";
+		$content .= "\r\n" . "<div class='form-group'>";
+		$content .= "\r\n" . '<label for="' . $name . '">' . $label . '</label>';
+		$content .= "\r\n" . '<textarea class="form-control" rows="' . $rows . '" id="' . $name . '" name="' . $name . '">';
+		$content .= $areaContent;
+		$content .= '</textarea>';
+		$content .= "\r\n" . '</div>';
+		$this->items[] = $content;
+	}
+	
 	/**
 	 * Generate Button
 	 * 
