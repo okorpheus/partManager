@@ -1,12 +1,26 @@
 <?php
 require_once('includes.php');
-if (!$currentUser->isAdmin()) {
-	UserMessageQueue::addMessage('danger', 'Maintenance functions require admin privileges');
-	redirect('index.php');
+
+
+if (isset($_POST['editUserID'])) {
+	if (!$currentUser->isAdmin() AND $_POST['editUserID'] != $currentUser->getID()) {
+		UserMessageQueue::addMessage('danger', 'You are not allowed to edit other users');
+		redirect('index.php');
+		exit();
+	}
+	processEditForm();
 }
 
-if (isset($_POST['editUserID'])) processEditForm();
-elseif (isset($_GET['id'])) showEditForm($_GET['id']);
+elseif (isset($_GET['id'])) {
+	
+	if (!$currentUser->isAdmin() AND $_GET['id'] != $currentUser->getID()) {
+		UserMessageQueue::addMessage('danger', 'You are not allowed to edit other users');
+		redirect('index.php');
+		exit();
+	}
+	showEditForm($_GET['id']);
+}
+
 else {
 	UserMessageQueue::addMessage('danger', 'No user specified');
 	redirect('users.php');
@@ -21,7 +35,7 @@ function processEditForm() {
 	$editUser->setEmail($_POST['newEmail']);
 	if(isset($_POST['newIsAdmin'])) $editUser->grantAdmin();
 	else $editUser->revokeAdmin();
-	if (strlen($_POST['newPassword'])) {
+	if (strlen($_POST['newPassword']) > 0) {
 		$editUser->changePassword($_POST['newPassword'], $_POST['newPasswordConfirm']);
 	}
 	$editUser->writeToDB();

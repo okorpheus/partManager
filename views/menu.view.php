@@ -29,14 +29,15 @@
      			</li>
      			
      		<?php } ?>
-     	</ul>	
-     	<ul class="nav navbar-nav navbar-right">
+     		
      		<?php if (is_object($currentUser)) { ?>
+     			<li><a href='editUser.php?id=<?php echo $currentUser->getID();?>'>My Profile</a></li>
      			<li><a href='logout.php'>Logout</a></li>
      		<?php } else { ?>
            		<li><a href="login.php">Login</a></li>
            	<?php } ?>
        	</ul>
+     	
 	</div>
 </nav>	
 <!-- ==================== END MENU BAR ==================== -->

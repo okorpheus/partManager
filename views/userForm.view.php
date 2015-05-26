@@ -1,5 +1,6 @@
 <?php
 function userForm($id = NULL) {
+	global $currentUser;
 	$oldID = 'new';
 	$oldEmail = NULL;
 	$oldUsername = NULL;
@@ -27,7 +28,7 @@ function userForm($id = NULL) {
 	$userForm->addTextInput('newEmail', 'Email', $oldEmail, 'email');
 	if ($oldIsAdmin == 1) $checked = TRUE;
 	else $checked = FALSE;
-	$userForm->addCheckbox('newIsAdmin', 'Admin', $checked);
+	if ($currentUser->isAdmin()) $userForm->addCheckbox('newIsAdmin', 'Admin', $checked);
 	$userForm->addButton('Submit');
 	$return = $userForm->returnForm();
 	return $return;
