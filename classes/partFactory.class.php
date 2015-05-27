@@ -58,6 +58,7 @@ class PartFactory {
 		foreach ($addList as $addFile) {
 			$stmt->execute(array($addFile));
 			UserMessageQueue::addMessage('success', 'Added ' . $addFile . ' to the database');
+			Logger::makeEntry('Added entry to the database for ' . $addFile,Database::$connection->lastInsertId());
 		}
 		$stmt->closeCursor();
 		return count($addList);
@@ -97,6 +98,7 @@ class PartFactory {
 		foreach ($missingFiles as $missingFile) {
 			$stmt->execute(array($missingFile));
 			UserMessageQueue::addMessage('warning', 'Removed ' . $missingFile . ' from the database.');
+			Logger::makeEntry('Removed entry for ' . $missingFile . ' from the database');
 		}
 		$stmt->closeCursor();
 		return count($missingFiles);

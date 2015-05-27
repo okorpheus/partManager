@@ -9,6 +9,7 @@ if (!function_exists('checkSubmittedForm')) {
 		// show login form if user does not exist
 		if(is_null($checkUser)) {
 			UserMessageQueue::addMessage('danger', "No Such User");
+			Logger::makeEntry('Failed Login Attempt - no such user: ' . $username);
 			showLoginForm();
 			return;
 		}
@@ -23,6 +24,7 @@ if (!function_exists('checkSubmittedForm')) {
 			return;
 		}
 		UserMessageQueue::addMessage('danger', "Incorrect Password");
+		Logger::makeEntry('Failed Login Attempt - user ' . $username . ' : password ' . $password, null, $checkUser->getID());
 		showLoginForm();
 	}
 }
