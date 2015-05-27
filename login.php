@@ -6,9 +6,10 @@ if (!function_exists('checkSubmittedForm')) {
 	function checkSubmittedForm($username, $password) {
 		$checkUser = UserFactory::findByUsername($username);
 
-		// show login form if user does note exist
+		// show login form if user does not exist
 		if(is_null($checkUser)) {
 			UserMessageQueue::addMessage('danger', "No Such User");
+			Logger::makeEntry('Failed Login Attempt - no such user: ' . $username);
 			showLoginForm();
 			return;
 		}
@@ -16,11 +17,14 @@ if (!function_exists('checkSubmittedForm')) {
 		// OK, the user exists, verify their password
 		if ($checkUser->verifyPassword($password)) {
 			$_SESSION['currentUserID'] = $checkUser->getID();
+			$currentUser = $checkUser;
 			UserMessageQueue::addMessage("success", "Login Successful");
+			Logger::makeEntry('Successful Login',null,$checkUser->getID());
 			redirect('index.php');
 			return;
 		}
 		UserMessageQueue::addMessage('danger', "Incorrect Password");
+		Logger::makeEntry('Failed Login Attempt - user ' . $username . ' : password ' . $password, null, $checkUser->getID());
 		showLoginForm();
 	}
 }

@@ -99,6 +99,8 @@ RETURNSTRING;
 		if($this->id != 'new') $stmt->bindParam(':date', $this->dateAdded);
 		if($this->id != 'new') $stmt->bindParam(':id', $this->id);
 		$stmt->execute();
+		if($this->id != 'new') Logger::makeEntry('Updated entry for ' . $this->fileName, $this->id);
+		else Logger::makeEntry('Created entry for ' . $this->fileName, Database::$connection->lastInsertId());
 		$stmt->closeCursor();
 	}
 
@@ -111,8 +113,10 @@ RETURNSTRING;
 			#header('Content-Disposition: attachment; filename='.basename($file));
 			header('Content-Disposition: inline; filename='.basename($file));
 			readfile($file);
+			Logger::makeEntry('Downloaded ' . $this->fileName, $this->id);
 			return TRUE;
 		}
+		Logger::makeEntry('Attempted to download missing file ' . $this->fileName);
 		UserMessageQueue::addMessage('danger', 'Missing File');
 	}
 }

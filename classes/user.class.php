@@ -30,6 +30,7 @@ class User {
 			redirect('editUser.php?id=' . $this->id);
 		}
 		$this->passHash = password_hash($newPass, PASSWORD_DEFAULT);
+		Logger::makeEntry('Changed password for user', null, $this->id);
 
 	}
 	
@@ -48,14 +49,17 @@ class User {
 			exit();
 		}
 		$this->username = htmlspecialchars($username);
+		
 	}
 	
 	public function setRealName($realname) {
 		$this->realName = htmlspecialchars($realname);
+		
 	}
 	
 	public function setEmail($email) {
 		$this->email = htmlspecialchars($email);
+		
 	}
 	
 	public function getID() {
@@ -80,10 +84,13 @@ class User {
 	
 	public function grantAdmin() {
 		$this->isAdmin = 1;
+		Logger::makeEntry('Granted admin access for user', null, $this->id);
 	}
 	
 	public function revokeAdmin() {
 		$this->isAdmin = 0;
+		Logger::makeEntry('Revoked admin access for user', null, $this->id);
+		
 	}
 	/**
 	 * 
@@ -154,6 +161,7 @@ class User {
 		$stmt = Database::$connection->prepare($sql);
 		$stmt->execute();
 		$stmt->closeCursor();
+		Logger::makeEntry('Changed password for user ' . $this->username, null, $this->id);
 	}
 	
 	public function writeToDB() {
@@ -179,6 +187,11 @@ class User {
 		$stmt->bindParam(':realName', $this->realName);
 		if($this->id != 'new') $stmt->bindParam(':id', $this->id);
 		$stmt->execute();
+		if($this->id != 'new') {
+			Logger::makeEntry('Updated user', null, $this->id);
+		}
+		else Logger::makeEntry('Created user', null, Database::$connection->lastInsertId());
+		$this->id = Database::$connection->lastInsertId();
 		$stmt->closeCursor();
 	}
 }

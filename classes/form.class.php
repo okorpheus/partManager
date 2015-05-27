@@ -226,7 +226,7 @@ class Form {
 			$endPad = (12 - $this->colsWide) / 2;
 			$content .= '</div>' . "\r\n";
 			$content .= '<div class="col-sm-' . $endPad . 'hidden-xs"></div>' . "\r\n";
-			$content .= '</row>' . "\r\n";
+			$content .= '</div>' . "\r\n";
 		}
 		$content .= '</form>' . "\r\n";
 		$content .= "\r\n\r\n<!-- ==========END FORM ($this->formName)========== -->\r\n\r\n";
