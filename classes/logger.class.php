@@ -35,7 +35,7 @@ class Logger {
 	}
 	
 	public static function getAllEntries() {
-		$sql = "SELECT id,user, partAffected, userAffected, timestamp, entry FROM " . self::$log_table;
+		$sql = "SELECT id,user, partAffected, userAffected, timestamp, entry FROM " . self::$log_table . " ORDER BY timestamp DESC";
 		$stmt = Database::$connection->prepare($sql);
 		$stmt->execute();
 		$return = $stmt->fetchAll(PDO::FETCH_CLASS, "loggerentry");
