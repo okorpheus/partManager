@@ -1,6 +1,9 @@
 <?php
 require_once('includes.php');
-
+if (!$currentUser->isAdmin()) {
+	UserMessageQueue::addMessage('danger', 'Viewing logs requires admin privileges');
+	redirect('index.php');
+}
 
 $content = "<!-- Begin Log Entry Table -->";
 $content .= "<table class='table table-hover'>\r\n";

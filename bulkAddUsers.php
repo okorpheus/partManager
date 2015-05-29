@@ -1,6 +1,11 @@
 <?php
 require_once('includes.php');
 
+if (!$currentUser->isAdmin()) {
+	UserMessageQueue::addMessage('danger', 'User management requires admin privileges');
+	redirect('index.php');
+}
+
 if (!isset($_POST['bulkUsers'])) showBulkAddForm();
 else processBulkAddForm($_POST['bulkUsers']);
 
