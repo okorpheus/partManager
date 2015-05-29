@@ -25,6 +25,7 @@
      					<li><a href='maintenance.php?a=rescanDirectory'>Scan for new files</a></li>
      					<li><a href='maintenance.php?a=cleanDatabase'>Remove Entries for Missing Files</a></li>
  						<li><a href='maintenance.php?a=all'>Full Cleanup</a></li>
+ 						<li><a href='viewLogs.php'>View Logs</a></li>
      				</ul>
      			</li>
      			
